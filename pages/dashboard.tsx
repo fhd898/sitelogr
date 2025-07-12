@@ -72,8 +72,10 @@ export default function Dashboard() {
         <ul className="space-y-3">
           {sites.map(site => (
             <li key={site.id} className="border p-3 rounded hover:shadow-md transition-shadow">
-              <h2 className="font-semibold">{site.name}</h2>
-              <p className="text-sm text-gray-600">{site.location}</p>
+              <Link href={`/site/${site.id}`} className="block">
+                <h2 className="font-semibold">{site.name}</h2>
+                <p className="text-sm text-gray-600">{site.location}</p>
+              </Link>
             </li>
           ))}
         </ul>
