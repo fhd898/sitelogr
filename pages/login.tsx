@@ -1,6 +1,8 @@
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../context/AuthContext';
+import { setDoc, doc } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 export default function Login() {
   const { currentUser, signIn, signUp } = useAuth();
@@ -21,7 +23,12 @@ export default function Login() {
     
     try {
       if (isNew) {
-        await signUp(email, pw);
+        const cred = await signUp(email, pw);
+        // Add user to users collection with default role
+        await setDoc(doc(db, 'users', cred.user.uid), {
+          role: 'pm',
+          email
+        });
       } else {
         await signIn(email, pw);
       }
