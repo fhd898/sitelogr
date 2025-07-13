@@ -5,6 +5,7 @@ import { db } from '../lib/firebase';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+
 export default function NewSite() {
   const { currentUser } = useAuth();
   const router = useRouter();
@@ -43,17 +44,18 @@ export default function NewSite() {
   };
 
   return (
-    <main className="h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded shadow w-96 space-y-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold">New Site</h1>
-          <Link 
-            href="/dashboard" 
-            className="text-blue-600 hover:text-blue-800 hover:underline text-sm"
-          >
-            ← Back to Dashboard
-          </Link>
-        </div>
+    <main className="min-h-screen bg-gray-100">
+      <div className="flex items-center justify-center min-h-[calc(100vh-80px)]">
+        <div className="bg-white p-6 rounded shadow w-96 space-y-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl font-semibold">New Site</h1>
+            <Link 
+              href="/dashboard" 
+              className="text-blue-600 hover:text-blue-800 hover:underline text-sm"
+            >
+              ← Back to Dashboard
+            </Link>
+          </div>
 
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -82,6 +84,7 @@ export default function NewSite() {
         >
           {loading ? 'Creating...' : 'Save Site'}
         </button>
+        </div>
       </div>
     </main>
   );

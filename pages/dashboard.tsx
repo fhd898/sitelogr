@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import useRole from '../hooks/useRole';
+import StickyFab from '../components/StickyFab';
 
 type Site = { id: string; name: string; location: string };
 
@@ -52,14 +53,6 @@ export default function Dashboard() {
       </header>
       <header className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Your Sites</h1>
-        {['owner','pm'].includes(role ?? '') && (
-          <Link 
-            href="/new-site" 
-            className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition-colors"
-          >
-            + New Site
-          </Link>
-        )}
       </header>
 
       {loading ? (
@@ -81,7 +74,7 @@ export default function Dashboard() {
       ) : (
         <ul className="space-y-3">
           {sites.map(site => (
-            <li key={site.id} className="border border-gray-200 shadow-sm p-4 rounded-lg hover:shadow-md transition">
+            <li key={site.id} className="border border-gray-200 shadow-sm p-4 rounded-lg hover:shadow-md transition-all duration-200 hover:scale-[1.02] hover:border-green-200">
               <Link href={`/site/${site.id}`} className="block">
                 <h2 className="font-semibold">{site.name}</h2>
                 <p className="text-sm text-gray-600">{site.location}</p>
@@ -97,12 +90,10 @@ export default function Dashboard() {
       >
         Log out
       </button>
-      {/* Sticky FAB for new site (mobile) */}
+      
+      {/* Sticky FAB for new site */}
       {['owner','pm'].includes(role ?? '') && (
-        <Link href="/new-site"
-          className="fixed bottom-5 right-5 bg-green-600 rounded-full w-14 h-14 flex items-center justify-center text-white text-2xl shadow-lg">
-          +
-        </Link>
+        <StickyFab href="/new-site" title="Add New Site" />
       )}
     </main>
   );

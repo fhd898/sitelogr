@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { makeLogPDF } from '../../lib/pdf';
 import useRole from '../../hooks/useRole';
+import StickyFab from '../../components/StickyFab';
 
 export default function SitePage() {
   const { currentUser } = useAuth();
@@ -50,22 +51,14 @@ export default function SitePage() {
     <main className="p-6 max-w-xl mx-auto space-y-4">
       <Link href="/dashboard" className="text-sm text-blue-600">← Back</Link>
       <h1 className="text-2xl font-bold">Daily Logs</h1>
-      <Link href={`/site/${id}/new-log`} className="bg-green-600 text-white px-3 py-1 rounded">
-        + New Log
-      </Link>
       {logs.length===0 && <p>No logs yet.</p>}
       {logs.map(l=>(
-        <article key={l.id} className="border p-3 rounded">
+        <article key={l.id} className="border p-3 rounded hover:shadow-md transition-all duration-200 hover:scale-[1.01] hover:border-green-200">
           <p className="text-sm text-gray-600">{l.createdAt?.seconds ? new Date(l.createdAt.seconds*1000).toDateString() : ''}</p>
-          <p className="my-2 whitespace-pre-wrap">{l.summary ?? l.text}</p>
-          {l.photos?.length>0 && (
-            <div className="flex gap-2">
-              {l.photos.map((url:string)=><img key={url} src={url} className="h-16 w-16 object-cover rounded"/>) }
-            </div>
-          )}
+          <p className="my-2 whitespace-pre-wrap">{l.summary || l.text}</p>
           <button
             onClick={async()=> {
-              const url = await makeLogPDF(siteName, l.summary ?? l.text, l.photos || []);
+              const url = await makeLogPDF(siteName, l.summary || l.text, []);
               window.open(url,'_blank');
             }}
             className="text-blue-600 text-sm"
@@ -82,6 +75,9 @@ export default function SitePage() {
           )}
         </article>
       ))}
+      
+      {/* Sticky FAB for new log */}
+      <StickyFab href={`/site/${id}/new-log`} title="Add New Log" />
     </main>
   );
 } 
