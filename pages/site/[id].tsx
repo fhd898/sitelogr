@@ -55,6 +55,7 @@ export default function SitePage() {
       {logs.map(l=>(
         <article key={l.id} className="border p-3 rounded hover:shadow-md transition-all duration-200 hover:scale-[1.01] hover:border-green-200">
           <p className="text-sm text-gray-600">{l.createdAt?.seconds ? new Date(l.createdAt.seconds*1000).toDateString() : ''}</p>
+          {l.weather && <p className="text-xs text-gray-400">Weather: {l.weather}</p>}
           <p className="my-2 whitespace-pre-wrap">{l.summary || l.text}</p>
           <button
             onClick={async()=> {
